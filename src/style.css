@@ -38,13 +38,16 @@ h1 {
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.6em 1.5em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+    margin-bottom: 1rem;
+    width: 25%;
+    margin: 1.5rem 1rem 2rem 1rem;
 }
 button:hover {
   border-color: #646cff;
@@ -55,13 +58,14 @@ button:focus-visible {
 }
 
 .card {
-  padding: 2em;
+  padding: 0;
 }
 
 #app {
   max-width: 1280px;
+    min-width: 50%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
 }
 
@@ -76,4 +80,28 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.app {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* DARK MODE */
+.app.dark {
+    background-color: #242424;
+    color: #ffffff;
+}
+
+/* LIGHT MODE */
+.app.light {
+    background-color: #f4f4f4;
+    color: #111111;
+}
+
+.app.dark .card {
+    background-color: #2b2b2b;
+}
+
+.app.light .card {
+    background-color: #ffffff;
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import ThemeToggle from '../components/ThemeToggle.vue'
 
 const router = useRouter();
 
@@ -11,6 +12,9 @@ function startGame() {
 <template>
   <main class="start">
     <h1>Memory Game</h1>
+
+    <ThemeToggle />
+
     <p>
       Finde alle Paare.
       Nach jedem Sieg wird das Spiel schwerer.
