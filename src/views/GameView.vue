@@ -1,21 +1,45 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import GameBoard from "../components/GameBoard.vue";
+import {useRouter} from "vue-router";
+import {ref} from "vue";
 
 const router = useRouter();
+let size = ref(2);
+const sizeCap = 10;
 
 function stopGame() {
   router.push("/");
+}
+
+function nextStage() {
+  if (size.value < sizeCap)
+    size.value += 2;
+}
+
+function onWon() {
+  console.log("WON EVENT RECEIVED");
+  if (size.value < sizeCap)
+    nextStage();
 }
 </script>
 
 <template>
   <main style="padding: 2rem; text-align: center;">
-    <h2>Game View</h2>
-    <p>Hier kommt später das Memory rein.</p>
+    <h1>Difficulty {{ size / 2 }}</h1>
+    <GameBoard :key="size" :size="Math.min(Math.max(size, 2), sizeCap)" @won="onWon"/>
   </main>
   <footer>
     <button @click="stopGame">
       Return to Menu
     </button>
+    <button @click="nextStage"> <!--already works automatically but still here for debugging-->
+      Make it harder
+    </button>
   </footer>
 </template>
+
+<style scoped>
+main {
+  text-align: center;
+}
+</style>
