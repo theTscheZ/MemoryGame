@@ -3,6 +3,7 @@ import { ref, computed, watch } from "vue";
 import MemoryCard from "./MemoryCard.vue";
 import type { Card } from "../types/memory";
 import { useGameStore } from "../stores/game";
+import { createCatDeck } from "../game/createCatDeck";
 
 const gameStore = useGameStore();
 
@@ -22,16 +23,12 @@ const lockBoard = ref(false);
 
 /* ---------- SETUP ---------- */
 
-function setupBoard() {
+async function setupBoard() {
   const pairCount = (props.size * props.size) / 2;
-  cards.value = createCards(pairCount);
 
-  for (const card of cards.value) {
-    if (gameStore.matchedIds.includes(card.id)) {
-      card.matched = true;
-      card.flipped = true;
-    }
-  }
+  gameStore.matchedIds = [];
+
+  cards.value = await createCatDeck(pairCount);
 
   flippedCards.value = [];
   lockBoard.value = false;
@@ -39,9 +36,12 @@ function setupBoard() {
 
 watch(
     () => props.size,
-    () => setupBoard(),
+    async () => {
+      await setupBoard();
+    },
     { immediate: true }
 );
+
 
 /* ---------- GAME LOGIC ---------- */
 
@@ -89,6 +89,7 @@ function resetTurn() {
 
 /* ---------- CARD FACTORY ---------- */
 
+/*
 function createCards(pairCount: number): Card[] {
   const result: Card[] = [];
 
@@ -111,6 +112,7 @@ function createCards(pairCount: number): Card[] {
 
   return result.sort(() => Math.random() - 0.5);
 }
+*/
 
 /* ---------- COMPUTED ---------- */
 
@@ -136,6 +138,7 @@ const gridStyle = computed(() => ({
         :key="card.uid"
         :flipped="card.flipped"
         :matched="card.matched"
+        :image-url="card.imageUrl"
         @click="onCardClick(card)"
     />
   </div>

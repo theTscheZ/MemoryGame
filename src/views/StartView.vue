@@ -16,8 +16,8 @@ function startGame() {
     <ThemeToggle />
 
     <p>
-      Finde alle Paare.
-      Nach jedem Sieg wird das Spiel schwerer.
+      Find all the pairs.
+      The game gets harder the more you win.
     </p>
 
     <button @click="startGame">

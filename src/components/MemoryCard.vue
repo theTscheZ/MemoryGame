@@ -2,6 +2,7 @@
 defineProps<{
   flipped: boolean;
   matched: boolean;
+  imageUrl: string;
 }>();
 
 const emit = defineEmits<{
@@ -17,7 +18,9 @@ const emit = defineEmits<{
   >
     <div class="inner">
       <div class="front">?</div>
-      <div class="back">🂠</div>
+      <div class="back">
+      <img :src="imageUrl" alt="cat" />
+    </div>
     </div>
   </div>
 </template>
@@ -60,4 +63,12 @@ const emit = defineEmits<{
   background: #ccc;
   transform: rotateY(180deg);
 }
+
+.back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
 </style>
