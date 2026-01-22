@@ -2,9 +2,12 @@
 import GameBoard from "../components/GameBoard.vue";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
+import { useGameStore } from "../stores/game";
+
+const gameStore = useGameStore();
 
 const router = useRouter();
-let size = ref(2);
+let size = ref(gameStore.level);
 const sizeCap = 10;
 
 function stopGame() {
@@ -12,8 +15,10 @@ function stopGame() {
 }
 
 function nextStage() {
-  if (size.value < sizeCap)
+  if (size.value < sizeCap){
     size.value += 2;
+    gameStore.setLevel(size.value);
+  }
 }
 
 function onWon() {
