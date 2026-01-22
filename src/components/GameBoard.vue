@@ -2,6 +2,9 @@
 import { ref, computed, watch } from "vue";
 import MemoryCard from "./MemoryCard.vue";
 import type { Card } from "../types/memory";
+import { useGameStore } from "../stores/game";
+
+const gameStore = useGameStore();
 
 const props = defineProps<{
   size: number;
@@ -20,8 +23,16 @@ const lockBoard = ref(false);
 /* ---------- SETUP ---------- */
 
 function setupBoard() {
-  const pairCount = (props.size*props.size) / 2;
+  const pairCount = (props.size * props.size) / 2;
   cards.value = createCards(pairCount);
+
+  for (const card of cards.value) {
+    if (gameStore.matchedIds.includes(card.id)) {
+      card.matched = true;
+      card.flipped = true;
+    }
+  }
+
   flippedCards.value = [];
   lockBoard.value = false;
 }
@@ -57,6 +68,9 @@ function checkMatch() {
   if (a.id === b.id) {
     a.matched = true;
     b.matched = true;
+
+    gameStore.saveMatched(cards.value);
+
     resetTurn();
   } else {
     setTimeout(() => {
