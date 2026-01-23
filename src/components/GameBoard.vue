@@ -4,6 +4,8 @@ import MemoryCard from "./MemoryCard.vue";
 import type { Card } from "../types/memory";
 import { useGameStore } from "../stores/game";
 import { createCatDeck } from "../game/createCatDeck";
+import { fetchCatImages } from "@/api/catApi";
+
 
 const gameStore = useGameStore();
 
@@ -26,9 +28,27 @@ const lockBoard = ref(false);
 async function setupBoard() {
   const pairCount = (props.size * props.size) / 2;
 
-  gameStore.matchedIds = [];
+  let images = gameStore.deckSize === props.size && gameStore.deckImages.length === pairCount
+      ? gameStore.deckImages
+      : null;
 
-  cards.value = await createCatDeck(pairCount);
+  if (!images) {
+    gameStore.clearMatched();
+
+    const apiImages = await fetchCatImages(pairCount);
+    images = apiImages.map(i => i.url);
+
+    gameStore.setDeck(props.size, images);
+  }
+
+  cards.value = createCardsFromImages(images);
+
+  for (const card of cards.value) {
+    if (gameStore.matchedIds.includes(card.id)) {
+      card.matched = true;
+      card.flipped = true;
+    }
+  }
 
   flippedCards.value = [];
   lockBoard.value = false;
@@ -63,7 +83,10 @@ function checkMatch() {
   lockBoard.value = true;
 
   const [a, b] = flippedCards.value;
-  if (!a || !b) return;
+  if (!a || !b) {
+    resetTurn();
+    return;
+  }
 
   if (a.id === b.id) {
     a.matched = true;
@@ -89,30 +112,19 @@ function resetTurn() {
 
 /* ---------- CARD FACTORY ---------- */
 
-/*
-function createCards(pairCount: number): Card[] {
+function createCardsFromImages(images: string[]): Card[] {
   const result: Card[] = [];
 
-  for (let i = 0; i < pairCount; i++) {
+  images.forEach((url, index) => {
     result.push(
-        {
-          id: i,
-          uid: crypto.randomUUID(),
-          flipped: false,
-          matched: false
-        },
-        {
-          id: i,
-          uid: crypto.randomUUID(),
-          flipped: false,
-          matched: false
-        }
+        { id: index, uid: crypto.randomUUID(), imageUrl: url, flipped: false, matched: false },
+        { id: index, uid: crypto.randomUUID(), imageUrl: url, flipped: false, matched: false }
     );
-  }
+  });
 
   return result.sort(() => Math.random() - 0.5);
 }
-*/
+
 
 /* ---------- COMPUTED ---------- */
 

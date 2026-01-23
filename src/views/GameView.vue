@@ -15,9 +15,9 @@ function stopGame() {
 }
 
 function nextStage() {
-  if (size.value < sizeCap){
+  if (size.value < sizeCap) {
     size.value += 2;
-    gameStore.setLevel(size.value);
+    gameStore.resetForDifficulty(size.value);
   }
 }
 
@@ -37,7 +37,7 @@ function onWon() {
     <button @click="stopGame">
       Return to Menu
     </button>
-    <button @click="nextStage"> <!--already works automatically but still here for debugging-->
+    <button @click="nextStage">
       Make it harder
     </button>
   </footer>
