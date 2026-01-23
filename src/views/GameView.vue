@@ -21,6 +21,12 @@ function nextStage() {
   }
 }
 
+function resetGame() {
+  size.value = 2;
+  gameStore.setLevel(size.value);
+  gameStore.resetGame()
+}
+
 function onWon() {
   console.log("WON EVENT RECEIVED");
   if (size.value < sizeCap)
@@ -39,6 +45,9 @@ function onWon() {
     </button>
     <button @click="nextStage">
       Make it harder
+    </button>
+    <button @click="resetGame">
+      Reset to Easy
     </button>
   </footer>
 </template>

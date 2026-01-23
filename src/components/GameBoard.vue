@@ -17,6 +17,8 @@ const emit = defineEmits<{
   (e: "won"): void;
 }>();
 
+const isLoading = ref(true);
+
 /* ---------- STATE ---------- */
 
 const cards = ref<Card[]>([]);
@@ -26,6 +28,7 @@ const lockBoard = ref(false);
 /* ---------- SETUP ---------- */
 
 async function setupBoard() {
+  isLoading.value = true;
   const pairCount = (props.size * props.size) / 2;
 
   let images = gameStore.deckSize === props.size && gameStore.deckImages.length === pairCount
@@ -52,6 +55,7 @@ async function setupBoard() {
 
   flippedCards.value = [];
   lockBoard.value = false;
+  isLoading.value = false;
 }
 
 watch(
@@ -110,22 +114,6 @@ function resetTurn() {
   lockBoard.value = false;
 }
 
-/* ---------- CARD FACTORY ---------- */
-
-function createCardsFromImages(images: string[]): Card[] {
-  const result: Card[] = [];
-
-  images.forEach((url, index) => {
-    result.push(
-        { id: index, uid: crypto.randomUUID(), imageUrl: url, flipped: false, matched: false },
-        { id: index, uid: crypto.randomUUID(), imageUrl: url, flipped: false, matched: false }
-    );
-  });
-
-  return result.sort(() => Math.random() - 0.5);
-}
-
-
 /* ---------- COMPUTED ---------- */
 
 const won = computed(() =>
@@ -144,7 +132,19 @@ const gridStyle = computed(() => ({
 </script>
 
 <template>
-  <div class="board" :style="gridStyle">
+  <div v-if="isLoading" class="loading">
+    <p>Loading cats… 🐈</p>
+
+    <div class="skeleton-grid" :style="gridStyle">
+      <div
+          v-for="i in size * size"
+          :key="i"
+          class="skeleton-card"
+      />
+    </div>
+  </div>
+
+  <div v-else class="board" :style="gridStyle">
     <MemoryCard
         v-for="card in cards"
         :key="card.uid"
