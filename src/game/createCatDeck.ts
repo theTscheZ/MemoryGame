@@ -1,47 +1,39 @@
 import type { Card } from "../types/memory";
-import { fetchCatImages } from "../api/catApi";
 
-function shuffle<T>(array: readonly T[]): T[] {
-    const a = [...array];
+function shuffleIndices(n: number): number[] {
+    const a = Array.from({ length: n }, (_, i) => i);
     for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-
-        const tmp = a[i]!;
-        a[i] = a[j]!;
-        a[j] = tmp;
+        [a[i]!, a[j]!] = [a[j]!, a[i]!];
     }
     return a;
 }
 
-function uid(): string {
-    return crypto.randomUUID();
+export function createOrder(pairCount: number): number[] {
+    return shuffleIndices(pairCount * 2);
 }
 
-export async function createCatDeck(pairCount: number): Promise<Card[]> {
-    const images = await fetchCatImages(pairCount);
+export function createCardsFromImages(images: string[], order: number[]): Card[] {
+    const base: Card[] = [];
 
-    const cards: Card[] = [];
-
-    images.forEach((img, index) => {
-        const pairId = index + 1;
-
-        cards.push(
+    images.forEach((url, pairId) => {
+        base.push(
             {
                 id: pairId,
-                uid: uid(),
-                imageUrl: img.url,
+                uid: crypto.randomUUID(),
+                imageUrl: url,
                 flipped: false,
                 matched: false,
             },
             {
                 id: pairId,
-                uid: uid(),
-                imageUrl: img.url,
+                uid: crypto.randomUUID(),
+                imageUrl: url,
                 flipped: false,
                 matched: false,
             }
         );
     });
 
-    return shuffle(cards);
+    return order.map((i) => base[i]!);
 }
