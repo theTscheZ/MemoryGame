@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import {computed, ref, watch} from "vue";
 import MemoryCard from "./MemoryCard.vue";
-import type { Card } from "../types/memory";
-import { useGameStore } from "../stores/game";
-import { createCatDeck } from "../game/createCatDeck";
+import type {Card} from "../types/memory";
+import {useGameStore} from "../stores/game";
+import {createCardsFromImages, createOrder} from "../game/createCatDeck";
+import { fetchCatImages } from "../api/catApi";
 
 const gameStore = useGameStore();
 
@@ -15,10 +16,9 @@ const emit = defineEmits<{
   (e: "won"): void;
 }>();
 
-const isLoading = ref(true);
-
 /* ---------- STATE ---------- */
 
+const isLoading = ref(true);
 const cards = ref<Card[]>([]);
 const flippedCards = ref<Card[]>([]);
 const lockBoard = ref(false);
@@ -26,12 +26,39 @@ const lockBoard = ref(false);
 /* ---------- SETUP ---------- */
 
 async function setupBoard() {
-  isLoading.value = true;
   const pairCount = (props.size * props.size) / 2;
+  isLoading.value = true;
 
-  gameStore.matchedIds = [];
+  const hasDeckForSize =
+      gameStore.deckSize === props.size &&
+      gameStore.deckImages.length === pairCount &&
+      gameStore.deckOrder.length === pairCount * 2;
 
-  cards.value = await createCatDeck(pairCount);
+  let images: string[];
+  let order: number[];
+
+  if (hasDeckForSize) {
+    images = gameStore.deckImages;
+    order = gameStore.deckOrder;
+  } else {
+    gameStore.clearMatched();
+
+    const apiImages = await fetchCatImages(pairCount);
+    images = apiImages.map((i) => i.url);
+
+    order = createOrder(pairCount);
+
+    gameStore.setDeck(props.size, images, order);
+  }
+
+  cards.value = createCardsFromImages(images, order);
+
+  for (const card of cards.value) {
+    if (gameStore.matchedIds.includes(card.id)) {
+      card.matched = true;
+      card.flipped = true;
+    }
+  }
 
   flippedCards.value = [];
   lockBoard.value = false;
@@ -45,7 +72,6 @@ watch(
     },
     { immediate: true }
 );
-
 
 /* ---------- GAME LOGIC ---------- */
 
