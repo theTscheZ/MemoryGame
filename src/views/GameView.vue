@@ -16,6 +16,7 @@ if (!gameStore.currentUser) {
 }
 
 function stopGame() {
+  gameStore.logout()
   router.push("/");
 }
 
