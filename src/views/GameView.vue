@@ -9,9 +9,14 @@ const gameStore = useGameStore();
 const router = useRouter();
 
 const sizeCap = 10;
-const size = ref(gameStore.level);
+const size = ref(gameStore.state.level);
+
+if (!gameStore.currentUser) {
+  router.push("/");
+}
 
 function stopGame() {
+  gameStore.logout()
   router.push("/");
 }
 
