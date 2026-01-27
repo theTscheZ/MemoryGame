@@ -30,16 +30,16 @@ async function setupBoard() {
   isLoading.value = true;
 
   const hasDeckForSize =
-      gameStore.deckSize === props.size &&
-      gameStore.deckImages.length === pairCount &&
-      gameStore.deckOrder.length === pairCount * 2;
+      gameStore.state.deckSize === props.size &&
+      gameStore.state.deckImages.length === pairCount &&
+      gameStore.state.deckOrder.length === pairCount * 2;
 
   let images: string[];
   let order: number[];
 
   if (hasDeckForSize) {
-    images = gameStore.deckImages;
-    order = gameStore.deckOrder;
+    images = gameStore.state.deckImages;
+    order = gameStore.state.deckOrder;
   } else {
     gameStore.clearMatched();
 
@@ -54,7 +54,7 @@ async function setupBoard() {
   cards.value = createCardsFromImages(images, order);
 
   for (const card of cards.value) {
-    if (gameStore.matchedIds.includes(card.id)) {
+    if (gameStore.state.matchedIds.includes(card.id)) {
       card.matched = true;
       card.flipped = true;
     }

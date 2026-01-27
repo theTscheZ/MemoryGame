@@ -1,10 +1,19 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useRouter } from "vue-router";
-import ThemeToggle from '../components/ThemeToggle.vue'
+import { useGameStore } from "../stores/game";
+import ThemeToggle from "../components/ThemeToggle.vue";
 
 const router = useRouter();
+const gameStore = useGameStore();
+
+const username = ref("");
 
 function startGame() {
+  const name = username.value.trim();
+  if (!name) return;
+
+  gameStore.login(name);
   router.push("/game");
 }
 </script>
@@ -20,9 +29,17 @@ function startGame() {
       The game gets harder the more you win.
     </p>
 
-    <button @click="startGame">
-      Start Game
-    </button>
+    <form @submit.prevent="startGame" class="login">
+      <input
+          v-model="username"
+          placeholder="Username"
+          autocomplete="off"
+      />
+
+      <button type="submit">
+        Start Game
+      </button>
+    </form>
   </main>
 </template>
 
@@ -54,5 +71,24 @@ button {
   border-radius: 8px;
   border: none;
   cursor: pointer;
+  min-width: 40%;
+  align-items: center;
+  align-self: center;
 }
+
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 220px;
+}
+
+input {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
 </style>
