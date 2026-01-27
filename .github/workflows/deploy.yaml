@@ -10,26 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Repo auschecken
+      # 1️ Repo auschecken
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      # 2️⃣ Node installieren
+      # 2️ Node installieren
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
           cache: npm
 
-      # 3️⃣ Dependencies installieren
+      # 3️ Dependencies installieren
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Projekt bauen (Vite → dist/)
+      # 4️ Projekt bauen (Vite → dist/)
       - name: Build project
         run: npm run build
 
-      # 5️⃣ Dist-Ordner auf den Server kopieren
+      # 5️ Dist-Ordner auf den Server kopieren
       - name: Deploy via SSH (copy dist to server)
         uses: appleboy/scp-action@v0.1.7
         with:
