@@ -77,17 +77,6 @@ export const useGameStore = defineStore("game", {
             this.users[this.currentUser] ??= defaultState();
             this.users[this.currentUser]!.matchedIds = [];
         },
-
-        resetForDifficulty(size: number) {
-            if (!this.currentUser) return;
-            this.users[this.currentUser] ??= defaultState();
-            const u = this.users[this.currentUser]!;
-            u.level = size;
-            u.matchedIds = [];
-            u.deckSize = 0;
-            u.deckImages = [];
-            u.deckOrder = [];
-        },
     },
 
     persist: true,
