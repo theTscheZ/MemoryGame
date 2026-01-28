@@ -3,7 +3,7 @@ import StartView from "../views/StartView.vue";
 import GameView from "../views/GameView.vue";
 
 const router = createRouter({
-    history: createWebHistory("/memory"),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: "/",
