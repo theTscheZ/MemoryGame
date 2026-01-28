@@ -181,14 +181,6 @@ const gridStyle = computed(() => ({
 
 /* allow scrolling instead of shrinking */
 .board {
-  overflow-x: hidden;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem !important;
-  margin: 1rem 0;
+  overflow-x: auto;
 }
 </style>
