@@ -14,12 +14,13 @@ const emit = defineEmits<{
   <div
       class="card"
       :class="{ flipped }"
+      data-testid ="card"
       @click="emit('click')"
   >
     <div class="inner">
       <div class="front">?</div>
       <div class="back">
-      <img :src="imageUrl" alt="cat" />
+      <img data-testid="card-image" :src="imageUrl" alt="cat" />
     </div>
     </div>
   </div>

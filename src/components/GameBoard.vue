@@ -93,8 +93,10 @@ function checkMatch() {
   lockBoard.value = true;
 
   const [a, b] = flippedCards.value;
-  if (!a || !b) return;
-
+  if (!a || !b) {
+    resetTurn();
+    return;
+  }
   if (a.id === b.id) {
     a.matched = true;
     b.matched = true;
@@ -135,7 +137,7 @@ const gridStyle = computed(() => ({
 </script>
 
 <template>
-  <div v-if="isLoading" class="loading">
+  <div v-if="isLoading" class="loading" data-testid="loading">
     <p>Loading cats… 🐈</p>
 
     <div class="skeleton-grid" :style="gridStyle">
@@ -147,7 +149,7 @@ const gridStyle = computed(() => ({
     </div>
   </div>
 
-  <div v-else class="board" :style="gridStyle">
+  <div v-else class="board" :style="gridStyle" data-testid="board">
     <MemoryCard
         v-for="card in cards"
         :key="card.uid"
