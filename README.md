@@ -1,31 +1,72 @@
 # MemoryGame
 
-## Team Members:
-Aaron Bandion\
-Niklas Mikeska\
-Rafael Bieringer
+🔗 **Live Demo:** [https://memorygame-irig.onrender.com/](https://memorygame-irig.onrender.com/)
 
-## Setup Guide:
-For the setup Node.js and npm must be installed.\
-Install the project with "git clone https://github.com/theTscheZ/MemoryGame" \
-Enter the project with "cd MemoryGame"\
-Install dependencies with "npm install"\
-Start the devolpment server with "npm run dev"\
-Preview the production build with "npm run preview"
+## Team Members
 
-## Used Technologies:
-- TypeScript
-- Vue 3
-- Vite
-- Pinia
-- Vue Router
-- TheCatAPI
-- Playwright
+* Aaron Bandion
+* Niklas Mikeska
+* Rafael Bieringer
 
-## Automated Testing:
-The project includes automated end-to-end tests using Playwright. You can test them with:\
-"npm run build"\
-"npx playwright test"
+## Setup Guide
 
-## Usage:
-Use the mouse the flip over the cards. Find all the pairs and you may proceed to the next level were you have to find more pairs. The game gets progressively harder. You can change between light and dark mode. You can use the buttons below to change the difficulty at any given time. Your progress is saved in LocalStorage so you can quit and resume whenever you like.
+To set up the project, make sure **Node.js** and **npm** are installed.
+
+```bash
+git clone https://github.com/theTscheZ/MemoryGame
+```
+
+```bash
+cd MemoryGame
+```
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## Used Technologies
+
+* TypeScript
+* Vue 3
+* Vite
+* Pinia
+* Vue Router
+* TheCatAPI
+* Playwright
+
+## Automated Testing
+
+The project includes automated end-to-end tests using **Playwright**.
+
+Build the project:
+
+```bash
+npm run build
+```
+
+Run the tests:
+
+```bash
+npx playwright test
+```
+
+## Usage
+
+* Use the mouse to flip over the cards.
+* Find all matching pairs to proceed to the next level, where more pairs await.
+* The game becomes progressively harder.
+* Switch between light and dark mode.
+* Change the difficulty at any time using the buttons below.
+* Your progress is saved in **LocalStorage**, so you can quit and resume whenever you like.
