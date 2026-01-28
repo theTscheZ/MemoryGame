@@ -164,9 +164,31 @@ const gridStyle = computed(() => ({
 <style scoped>
 .board {
   display: grid;
-  gap: 1rem;
-  width: 100%;
-  max-width: 90vw;
+  justify-content: center;
+  gap: 0.75rem;
+
+  /* prevents huge stretching */
+  max-width: 900px;
   margin: 0 auto;
+}
+
+/* responsive columns controlled by size */
+@media (max-width: 600px) {
+  .board {
+    gap: 0.5rem;
+  }
+}
+
+/* allow scrolling instead of shrinking */
+.board {
+  overflow-x: hidden;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem !important;
+  margin: 1rem 0;
 }
 </style>

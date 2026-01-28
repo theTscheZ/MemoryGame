@@ -13,19 +13,33 @@ const emit = defineEmits<{
 
 <template>
   <footer>
-    <button @click="emit('stop')">
-      Return to Menu
-    </button>
+    <div class="actions">
+      <button @click="emit('stop')">
+        Return to Menu
+      </button>
 
-    <button
-        @click="emit('next')"
-        :disabled="size >= sizeCap"
-    >
-      Make it harder
-    </button>
+      <button
+          @click="emit('next')"
+          :disabled="size >= sizeCap"
+      >
+        Make it harder
+      </button>
 
-    <button @click="emit('reset')">
-      Reset to Easy
-    </button>
+      <button @click="emit('reset')">
+        Reset to Easy
+      </button>
+    </div>
   </footer>
 </template>
+
+<style scoped>
+.actions {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  justify-items: center;
+  justify-content: center;
+  font-size: inherit;
+}
+</style>
