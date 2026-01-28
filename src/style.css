@@ -117,10 +117,6 @@ button:focus-visible {
     background: linear-gradient(135deg, #4f46e5, #6366f1);
 }
 
-html,
-body {
-    overflow: hidden;
-}
 
 .actions{
     display: flex;
