@@ -1,6 +1,6 @@
 # MemoryGame
 
-🔗 **Live Demo:** [https://memorygame-irig.onrender.com/](https://memorygame-irig.onrender.com/)
+🔗 **Live Demo:** [https://memory-game-rh8e.onrender.com/](https://memory-game-rh8e.onrender.com/)
 
 ## Team Members
 
